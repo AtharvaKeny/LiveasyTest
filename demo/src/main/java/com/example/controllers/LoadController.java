@@ -16,17 +16,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.entities.Load;
+import com.example.entities.Shipper;
 import com.example.services.LoadService;
+import com.example.services.ShipperService;
 
 @RestController
 @CrossOrigin("*")
 public class LoadController {
 	
 	private final LoadService loadservice;
+	private final ShipperService shipperService;
 
 	@Autowired
-	public LoadController(LoadService loadservice) {
+	public LoadController(LoadService loadservice,ShipperService shipperService) {
 		this.loadservice = loadservice;
+		this.shipperService = shipperService;
 	}
 	
 	@GetMapping("/loads")
@@ -47,8 +51,12 @@ public class LoadController {
 	
 	@GetMapping("/load")
 	public ResponseEntity<List<Load>> getLoadsByShipperId(@RequestParam Long shipperId){
-		List<Load> loads = loadservice.findByShipperId(shipperId);
-		return new ResponseEntity<>(loads,HttpStatus.OK);
+		Optional<Shipper> s = shipperService.getShipperById(shipperId);
+		if(s.isPresent()) {
+			List<Load> loads = loadservice.findByShipperId(s.get());
+			return new ResponseEntity<>(loads,HttpStatus.OK);
+		}else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PostMapping("/load")
@@ -59,7 +67,7 @@ public class LoadController {
 	
 	@PutMapping("/load/{loadId}")
 	public void updateLoadById(@PathVariable Long id,@RequestBody Load updatedLoad) {
-		loadservice.modifyLoad(id, updatedLoad);
+		//loadservice.modifyLoad(id, updatedLoad);
 	}
 	
 	@DeleteMapping("/load/{loadId}")

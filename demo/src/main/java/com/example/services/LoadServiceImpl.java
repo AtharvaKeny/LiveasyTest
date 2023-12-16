@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entities.Load;
+import com.example.entities.Shipper;
 import com.example.repositories.LoadRepository;
 
 @Service
@@ -22,8 +23,8 @@ public class LoadServiceImpl implements LoadService{
 	}
 
 	@Override
-	public List<Load> findByShipperId(Long shipperId) {
-		return repo.findByShipperId(shipperId);
+	public List<Load> findByShipperId(Shipper shipper) {
+		return repo.findByShipper(shipper);
 	}
 
 	@Override
@@ -36,10 +37,10 @@ public class LoadServiceImpl implements LoadService{
 		return repo.save(load);
 	}
 
-	@Override
-	public void modifyLoad(Long loadId,Load load) {
-		repo.updateLoadById(loadId, load);
-	}
+//	@Override
+//	public void modifyLoad(Long loadId,Load load) {
+//		repo.updateLoadById(loadId, load);
+//	}
 
 	@Override
 	public void removeLoad(Long loadId) {

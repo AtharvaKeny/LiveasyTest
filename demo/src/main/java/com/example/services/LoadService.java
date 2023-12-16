@@ -12,8 +12,8 @@ public interface LoadService{
 	
 	public Optional<Load> findByLoadId(Long loadId);
 	public List<Load> findAllLoads();
-	public List<Load> findByShipperId(Long shipperId);
+	public List<Load> findByShipperId(Shipper shipper);
 	public Load addLoad(Load load);
-	public void modifyLoad(Long loadId,Load load);
+	//public void modifyLoad(Long loadId,Load load);
 	public void removeLoad(Long loadId);
 }
