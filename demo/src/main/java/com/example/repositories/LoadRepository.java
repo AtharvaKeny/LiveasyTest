@@ -15,10 +15,6 @@ import com.example.entities.Shipper;
 public interface LoadRepository extends JpaRepository<Load, Long>{
 
 		List<Load> findByShipper(Shipper shipper);
-	 
-    
-    // Custom query to update a Load by its ID
-//    @Modifying
-//    @Query("UPDATE Load l SET l = :updatedLoad Load WHERE l.load_id = :loadId")
-//    void updateLoadById(Long loadId, Load updatedLoad);
+		
+   
 }

@@ -14,6 +14,6 @@ public interface LoadService{
 	public List<Load> findAllLoads();
 	public List<Load> findByShipperId(Shipper shipper);
 	public Load addLoad(Load load);
-	//public void modifyLoad(Long loadId,Load load);
+	public void modifyLoad(Long loadId,Load load);
 	public void removeLoad(Long loadId);
 }

@@ -37,10 +37,53 @@ public class LoadServiceImpl implements LoadService{
 		return repo.save(load);
 	}
 
-//	@Override
-//	public void modifyLoad(Long loadId,Load load) {
-//		repo.updateLoadById(loadId, load);
-//	}
+	@Override
+	public void modifyLoad(Long loadId,Load load) {
+		Optional<Load> oLoad=repo.findById(loadId);
+		Load oldLoad = oLoad.get();
+		
+		if (load.getDate() != null) {
+	        oldLoad.setDate(load.getDate());
+	    }
+
+	    if (load.getLoadingPoint() != null) {
+	        oldLoad.setLoadingPoint(load.getLoadingPoint());
+	    }
+
+	    if (load.getComment() != null) {
+	        oldLoad.setComment(load.getComment());
+	    }
+
+	    // Repeat this pattern for each field...
+
+	    // If you are using Java 14 or later, you can use the concise way:
+	    // oldLoad.setNoOfTrucks(load.getNoOfTrucks());
+	    if (load.getNoOfTrucks() != null) {
+	        oldLoad.setNoOfTrucks(load.getNoOfTrucks());
+	    }
+
+	    if (load.getProductType() != null) {
+	        oldLoad.setProductType(load.getProductType());
+	    }
+
+	    if (load.getshipper() != null) {
+	        oldLoad.setshipper(load.getshipper());
+	    }
+
+	    if (load.getTruckType() != null) {
+	        oldLoad.setTruckType(load.getTruckType());
+	    }
+
+	    if (load.getUnloadingPoint() != null) {
+	        oldLoad.setUnloadingPoint(load.getUnloadingPoint());
+	    }
+
+	    if (load.getWeight() != null) {
+	        oldLoad.setWeight(load.getWeight());
+	    }
+		
+		repo.save(oldLoad);
+	}
 
 	@Override
 	public void removeLoad(Long loadId) {

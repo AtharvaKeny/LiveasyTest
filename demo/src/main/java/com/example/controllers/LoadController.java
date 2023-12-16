@@ -39,8 +39,9 @@ public class LoadController {
 		return new ResponseEntity<>(loads,HttpStatus.OK);
 	}
 	
-	@GetMapping("/load/{loadId}")
+	@GetMapping("/load/{id}")
 	public ResponseEntity<Load> getLoadById(@PathVariable Long id){
+		//Long id = (long) ids;
 		Optional<Load> load = loadservice.findByLoadId(id);
 		if(load.isPresent()) {
 			return new ResponseEntity<>(load.get(),HttpStatus.OK);
@@ -65,12 +66,12 @@ public class LoadController {
 		return new ResponseEntity<>(createdLoad,HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/load/{loadId}")
+	@PutMapping("/load/{id}")
 	public void updateLoadById(@PathVariable Long id,@RequestBody Load updatedLoad) {
-		//loadservice.modifyLoad(id, updatedLoad);
+		loadservice.modifyLoad(id, updatedLoad);
 	}
 	
-	@DeleteMapping("/load/{loadId}")
+	@DeleteMapping("/load/{id}")
 	public ResponseEntity<Void> removeLoad(@PathVariable Long id) {
 		loadservice.removeLoad(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

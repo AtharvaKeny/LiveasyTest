@@ -24,6 +24,7 @@ public class Shipper {
 	private List<Load> listofloads;
 	
 	public Shipper() {
+		super();
     }
 	
 	

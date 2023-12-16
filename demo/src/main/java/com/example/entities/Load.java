@@ -35,6 +35,9 @@ public class Load {
 	
 	
 	
+	public Load() {
+		super();
+	}
 	public Load(Long loadId, String loadingPoint, String unloadingPoint, String productType, String truckType,
 			Integer noOfTrucks, Double weight, String comment, Shipper shipper, Date date) {
 		super();
