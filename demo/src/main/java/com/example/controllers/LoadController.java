@@ -51,13 +51,9 @@ public class LoadController {
 	}
 	
 	@GetMapping("/load")
-	public ResponseEntity<List<Load>> getLoadsByShipperId(@RequestParam Long shipperId){
-		Optional<Shipper> s = shipperService.getShipperById(shipperId);
-		if(s.isPresent()) {
-			List<Load> loads = loadservice.findByShipperId(s.get());
-			return new ResponseEntity<>(loads,HttpStatus.OK);
-		}else
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<List<Load>> getLoadsByShipperId(@RequestParam Shipper shipper){
+		List<Load> loads = loadservice.findByShipperId(shipper);
+		return new ResponseEntity<>(loads,HttpStatus.OK);
 	}
 	
 	@PostMapping("/load")
