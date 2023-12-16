@@ -2,12 +2,15 @@ package com.example.entities;
 
 import java.util.Date;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+
+
 
 @Entity
 public class Load {
@@ -24,15 +27,16 @@ public class Load {
 	private Double weight;
 	private String comment;
 	
-	@OneToOne
+	@ManyToOne
     @JoinColumn(name = "shipperId")
-	private Shipper shipperId;
+	private Shipper shipper;
+	
 	private Date date;
 	
 	
 	
 	public Load(Long loadId, String loadingPoint, String unloadingPoint, String productType, String truckType,
-			Integer noOfTrucks, Double weight, String comment, Shipper shipperId, Date date) {
+			Integer noOfTrucks, Double weight, String comment, Shipper shipper, Date date) {
 		super();
 		this.loadId = loadId;
 		this.loadingPoint = loadingPoint;
@@ -42,7 +46,7 @@ public class Load {
 		this.noOfTrucks = noOfTrucks;
 		this.weight = weight;
 		this.comment = comment;
-		this.shipperId = shipperId;
+		this.shipper = shipper;
 		this.date = date;
 	}
 	public Long getLoadId() {
@@ -53,11 +57,11 @@ public class Load {
 	}
 	
 	
-	public Shipper getShipperId() {
-		return shipperId;
+	public Shipper getshipper() {
+		return shipper;
 	}
-	public void setShipperId(Shipper shipperId) {
-		this.shipperId = shipperId;
+	public void setshipper(Shipper shipper) {
+		this.shipper = shipper;
 	}
 	public String getLoadingPoint() {
 		return loadingPoint;
