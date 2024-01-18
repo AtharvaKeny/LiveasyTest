@@ -1,23 +1,26 @@
-
-// SignUp.jsx
+// Login.jsx
 import React, { useState } from 'react';
 
-const SignUp = ({ onSignUp }) => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignUp = () => {
-    // Store user details in session storage
-    sessionStorage.setItem('username', username);
-    sessionStorage.setItem('password', password);
+  const handleLogin = () => {
+    // Check login with stored user details
+    const storedUsername = sessionStorage.getItem('username');
+    const storedPassword = sessionStorage.getItem('password');
 
-    // Notify parent component (App.jsx)
-    onSignUp();
+    if (username === storedUsername && password === storedPassword) {
+      // Notify parent component (App.jsx)
+      onLogin(true);
+    } else {
+      alert('Login failed. Please check your username and password.');
+    }
   };
 
   return (
     <div>
-      <h2>Sign Up</h2>
+      <h2>Login</h2>
       <label>
         Username:
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -28,9 +31,9 @@ const SignUp = ({ onSignUp }) => {
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </label>
       <br />
-      <button onClick={handleSignUp}>Sign Up</button>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };
 
-export default SignUp;
+export default Login;
