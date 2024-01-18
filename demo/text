@@ -1,33 +1,16 @@
-// LoginScreen.js
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+// UserProfileScreen.js
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
-const LoginScreen = () => {
-  const history = useHistory();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser && storedUser.password === password) {
-      history.push(`/user-profile/${email}`);
-    } else {
-      console.log('Incorrect email or password');
-    }
-  };
+const UserProfileScreen = () => {
+  const { email } = useParams();
 
   return (
     <div>
-      <h1>Login</h1>
-      <label>Email:</label>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <br />
-      <label>Password:</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <br />
-      <button onClick={handleLogin}>Login</button>
+      <h1>User Profile</h1>
+      <p>Email: {email}</p>
     </div>
   );
 };
 
-export default LoginScreen;
+export default UserProfileScreen;
