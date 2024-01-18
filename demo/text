@@ -1,42 +1,33 @@
-// RegistrationScreen.js
+// LoginScreen.js
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-const RegistrationScreen = () => {
+const LoginScreen = () => {
   const history = useHistory();
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [reEnterPassword, setReEnterPassword] = useState('');
 
-  const handleRegister = () => {
-    // For simplicity, password is stored as plain text, you should hash it in real-world scenarios
-    localStorage.setItem('user', JSON.stringify({ name, email, password }));
-    history.push('/login');
+  const handleLogin = () => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser && storedUser.password === password) {
+      history.push(`/user-profile/${email}`);
+    } else {
+      console.log('Incorrect email or password');
+    }
   };
 
   return (
     <div>
-      <h1>Registration</h1>
-      <label>Name:</label>
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      <br />
+      <h1>Login</h1>
       <label>Email:</label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <br />
       <label>Password:</label>
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <br />
-      <label>Re-enter Password:</label>
-      <input
-        type="password"
-        value={reEnterPassword}
-        onChange={(e) => setReEnterPassword(e.target.value)}
-      />
-      <br />
-      <button onClick={handleRegister}>Register</button>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };
 
-export default RegistrationScreen;
+export default LoginScreen;
