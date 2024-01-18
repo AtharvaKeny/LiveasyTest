@@ -1,47 +1,48 @@
-// SignUp.jsx
+// Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
+const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
+  const [loginData, setLoginData] = useState({
     email: '',
-    phoneNumber: '',
     password: '',
-    confirmPassword: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    // Basic validation
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match. Please re-enter.');
-      return;
+  const handleLogin = () => {
+    // Retrieve user details from session storage
+    const savedUserDetails = sessionStorage.getItem('userDetails');
+    if (savedUserDetails) {
+      const userDetails = JSON.parse(savedUserDetails);
+
+      // Check login with stored user details
+      if (loginData.email === userDetails.email && loginData.password === userDetails.password) {
+        // Redirect to user details page
+        navigate('/user-details');
+      } else {
+        alert('Login failed. Please check your email and password.');
+      }
+    } else {
+      alert('User not found. Please sign up.');
     }
-
-    // Save user details in session storage
-    sessionStorage.setItem('userDetails', JSON.stringify(formData));
-
-    // Redirect to login page
-    navigate('/login');
   };
 
   return (
     <div>
-      <h2>Sign Up</h2>
+      <h2>Login</h2>
       <form>
         {/* ... (unchanged code) */}
-        <button type="button" onClick={handleSubmit}>
-          Sign Up
+        <button type="button" onClick={handleLogin}>
+          Login
         </button>
       </form>
     </div>
   );
 };
 
-export default SignUp;
+export default Login;
