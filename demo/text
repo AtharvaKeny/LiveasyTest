@@ -1,33 +1,39 @@
-// App.jsx
+// Login.jsx
 import React, { useState } from 'react';
-import SignUp from './SignUp';
-import Login from './Login';
 
-const App = () => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+const Login = ({ onLogin }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSignUp = () => {
-    // Update the state to indicate that the user is logged in
-    setLoggedIn(true);
-  };
+  const handleLogin = () => {
+    // Check login with stored user details
+    const storedUsername = sessionStorage.getItem('username');
+    const storedPassword = sessionStorage.getItem('password');
 
-  const handleLogin = (success) => {
-    // Update the state based on the login result
-    setLoggedIn(success);
+    if (username === storedUsername && password === storedPassword) {
+      // Notify parent component (App.jsx)
+      onLogin(true);
+    } else {
+      alert('Login failed. Please check your username and password.');
+    }
   };
 
   return (
     <div>
-      {isLoggedIn ? (
-        <p>Welcome! You are logged in.</p>
-      ) : (
-        <>
-          <SignUp onSignUp={handleSignUp} />
-          <Login onLogin={handleLogin} />
-        </>
-      )}
+      <h2>Login</h2>
+      <label>
+        Username:
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      </label>
+      <br />
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };
 
-export default App;
+export default Login;
