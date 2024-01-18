@@ -1,23 +1,78 @@
-// App.jsx
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet, Redirect } from 'react-router-dom';
-import SignUp from './SignUp';
-import Login from './Login';
-import UserDetails from './UserDetails';
+import React, { useState } from 'react';
 
-const App = () => {
+const SignupForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate form fields
+    if (
+      formData.name.trim() &&
+      formData.email.trim() &&
+      formData.phone.trim() &&
+      formData.password.trim() &&
+      formData.confirmPassword.trim()
+    ) {
+      // Check if passwords match
+      if (formData.password === formData.confirmPassword) {
+        // Store user details in session storage
+        sessionStorage.setItem('userDetails', JSON.stringify(formData));
+        alert('Signup successful!');
+      } else {
+        alert('Passwords do not match. Please check and try again.');
+      }
+    } else {
+      alert('Please fill in all fields.');
+    }
+  };
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Outlet />}>
-          <Route path="signup" element={<SignUp />} />
-          <Route path="login" element={<Login />} />
-          <Route path="user-details" element={<UserDetails />} />
-          <Route index element={<Navigate to="/signup" />} />
-        </Route>
-      </Routes>
-    </Router>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" name="name" value={formData.name} onChange={handleChange} />
+      </label>
+      <br />
+      <label>
+        Email:
+        <input type="email" name="email" value={formData.email} onChange={handleChange} />
+      </label>
+      <br />
+      <label>
+        Phone:
+        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input type="password" name="password" value={formData.password} onChange={handleChange} />
+      </label>
+      <br />
+      <label>
+        Confirm Password:
+        <input
+          type="password"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+        />
+      </label>
+      <br />
+      <button type="submit">Sign Up</button>
+    </form>
   );
 };
 
-export default App;
+export default SignupForm;
