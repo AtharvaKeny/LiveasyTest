@@ -1,54 +1,47 @@
-// App.jsx
+// SignUp.jsx
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import SignUp from './SignUp';
-import Login from './Login';
+import { useNavigate } from 'react-router-dom';
 
-const App = () => {
-  const [isSignedUp, setSignedUp] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+const SignUp = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-  const handleSignUp = () => {
-    // Update the state to indicate that the user is signed up
-    setSignedUp(true);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleLogin = (success) => {
-    // Update the state based on the login result
-    setLoggedIn(success);
-  };
+  const handleSubmit = () => {
+    // Basic validation
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match. Please re-enter.');
+      return;
+    }
 
-  // Define the route table
-  const routes = [
-    {
-      path: '/',
-      exact: true,
-      render: () => (!isSignedUp ? <SignUp onSignUp={handleSignUp} /> : <Redirect to="/login" />),
-    },
-    {
-      path: '/login',
-      render: () =>
-        isSignedUp && !isLoggedIn ? (
-          <Login onLogin={handleLogin} />
-        ) : (
-          <Redirect to="/" />
-        ),
-    },
-    {
-      path: '/',
-      render: () => (isLoggedIn ? <p>Welcome! You are logged in.</p> : <Redirect to="/" />),
-    },
-  ];
+    // Save user details in session storage
+    sessionStorage.setItem('userDetails', JSON.stringify(formData));
+
+    // Redirect to login page
+    navigate('/login');
+  };
 
   return (
-    <Router>
-      {routes.map((route, index) => (
-        <Route key={index} path={route.path} exact={route.exact}>
-          {route.render()}
-        </Route>
-      ))}
-    </Router>
+    <div>
+      <h2>Sign Up</h2>
+      <form>
+        {/* ... (unchanged code) */}
+        <button type="button" onClick={handleSubmit}>
+          Sign Up
+        </button>
+      </form>
+    </div>
   );
 };
 
-export default App;
+export default SignUp;
