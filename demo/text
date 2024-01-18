@@ -1,30 +1,42 @@
-// App.js
-import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import RegistrationScreen from './RegistrationScreen';
-import LoginScreen from './LoginScreen';
-import UserProfileScreen from './UserProfileScreen';
+// RegistrationScreen.js
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-const App = () => {
+const RegistrationScreen = () => {
+  const history = useHistory();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [reEnterPassword, setReEnterPassword] = useState('');
+
+  const handleRegister = () => {
+    // For simplicity, password is stored as plain text, you should hash it in real-world scenarios
+    localStorage.setItem('user', JSON.stringify({ name, email, password }));
+    history.push('/login');
+  };
+
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/registration">Registration</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-        </ul>
-      </nav>
-      <Switch>
-        <Route path="/registration" component={RegistrationScreen} />
-        <Route path="/login" component={LoginScreen} />
-        <Route path="/user-profile/:email" component={UserProfileScreen} />
-      </Switch>
+      <h1>Registration</h1>
+      <label>Name:</label>
+      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <br />
+      <label>Email:</label>
+      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <br />
+      <label>Password:</label>
+      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <br />
+      <label>Re-enter Password:</label>
+      <input
+        type="password"
+        value={reEnterPassword}
+        onChange={(e) => setReEnterPassword(e.target.value)}
+      />
+      <br />
+      <button onClick={handleRegister}>Register</button>
     </div>
   );
 };
 
-export default App;
+export default RegistrationScreen;
