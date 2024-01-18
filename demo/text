@@ -1,25 +1,36 @@
-// UserDetails.jsx
-import React from 'react';
-
-const UserDetails = () => {
-  // Retrieve user details from session storage
-  const savedUserDetails = sessionStorage.getItem('userDetails');
-  const userDetails = savedUserDetails ? JSON.parse(savedUserDetails) : null;
-
-  return (
-    <div>
-      <h2>User Details</h2>
-      {userDetails ? (
-        <div>
-          <p>Name: {userDetails.name}</p>
-          <p>Email: {userDetails.email}</p>
-          <p>Phone Number: {userDetails.phoneNumber}</p>
-        </div>
-      ) : (
-        <p>User details not found.</p>
-      )}
-    </div>
-  );
-};
-
-export default UserDetails;
+<form>
+        <label>
+          Name:
+          <input type="text" name="name" value={formData.name} onChange={handleChange} />
+        </label>
+        <br />
+        <label>
+          Email:
+          <input type="email" name="email" value={formData.email} onChange={handleChange} />
+        </label>
+        <br />
+        <label>
+          Phone Number:
+          <input
+            type="tel"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input type="password" name="password" value={formData.password} onChange={handleChange} />
+        </label>
+        <br />
+        <label>
+          Confirm Password:
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
