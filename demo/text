@@ -1,36 +1,23 @@
-<form>
-        <label>
-          Name:
-          <input type="text" name="name" value={formData.name} onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input type="email" name="email" value={formData.email} onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          Phone Number:
-          <input
-            type="tel"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input type="password" name="password" value={formData.password} onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          Confirm Password:
-          <input
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
+// App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet, Redirect } from 'react-router-dom';
+import SignUp from './SignUp';
+import Login from './Login';
+import UserDetails from './UserDetails';
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Outlet />}>
+          <Route path="signup" element={<SignUp />} />
+          <Route path="login" element={<Login />} />
+          <Route path="user-details" element={<UserDetails />} />
+          <Route index element={<Navigate to="/signup" />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
