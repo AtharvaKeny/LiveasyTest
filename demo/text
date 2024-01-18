@@ -1,48 +1,21 @@
-// Login.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import SignUp from './SignUp';
+import Login from './Login';
+import UserDetails from './UserDetails';
 
-const Login = () => {
-  const navigate = useNavigate();
-  const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLoginData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleLogin = () => {
-    // Retrieve user details from session storage
-    const savedUserDetails = sessionStorage.getItem('userDetails');
-    if (savedUserDetails) {
-      const userDetails = JSON.parse(savedUserDetails);
-
-      // Check login with stored user details
-      if (loginData.email === userDetails.email && loginData.password === userDetails.password) {
-        // Redirect to user details page
-        navigate('/user-details');
-      } else {
-        alert('Login failed. Please check your email and password.');
-      }
-    } else {
-      alert('User not found. Please sign up.');
-    }
-  };
-
+const App = () => {
   return (
-    <div>
-      <h2>Login</h2>
-      <form>
-        {/* ... (unchanged code) */}
-        <button type="button" onClick={handleLogin}>
-          Login
-        </button>
-      </form>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/signup" component={SignUp} />
+        <Route path="/login" component={Login} />
+        <Route path="/user-details" component={UserDetails} />
+        <Redirect from="/" to="/signup" />
+      </Switch>
+    </Router>
   );
 };
 
-export default Login;
+export default App;
