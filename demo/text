@@ -1,54 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const LoginForm = () => {
-  const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
-  });
+const Dashboard = () => {
+  const [userDetails, setUserDetails] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLoginData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     // Retrieve stored user details from session storage
     const storedUserDetails = JSON.parse(sessionStorage.getItem('userDetails'));
 
-    // Validate login credentials
-    if (
-      storedUserDetails &&
-      loginData.email === storedUserDetails.email &&
-      loginData.password === storedUserDetails.password
-    ) {
-      alert('Login successful!');
-    } else {
-      alert('Invalid email or password. Please try again.');
+    // Check if user details are available
+    if (storedUserDetails) {
+      setUserDetails(storedUserDetails);
     }
-  };
+  }, []);
 
   return (
-    <form onSubmit={handleLogin}>
-      <label>
-        Email:
-        <input type="email" name="email" value={loginData.email} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={loginData.password}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <h2>Welcome to the Dashboard</h2>
+      {userDetails ? (
+        <div>
+          <p>Name: {userDetails.name}</p>
+          <p>Email: {userDetails.email}</p>
+          <p>Phone: {userDetails.phone}</p>
+        </div>
+      ) : (
+        <p>No user details found. Please log in.</p>
+      )}
+    </div>
   );
 };
 
-export default LoginForm;
+export default Dashboard;
