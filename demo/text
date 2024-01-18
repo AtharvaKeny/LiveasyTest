@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
-const Dashboard = () => {
-  const [userDetails, setUserDetails] = useState(null);
+import SignupForm from './SignupForm';
+import LoginForm from './LoginForm';
+import Dashboard from './Dashboard';
 
-  useEffect(() => {
-    // Retrieve stored user details from session storage
-    const storedUserDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-
-    // Check if user details are available
-    if (storedUserDetails) {
-      setUserDetails(storedUserDetails);
-    }
-  }, []);
-
+const App = () => {
   return (
-    <div>
-      <h2>Welcome to the Dashboard</h2>
-      {userDetails ? (
-        <div>
-          <p>Name: {userDetails.name}</p>
-          <p>Email: {userDetails.email}</p>
-          <p>Phone: {userDetails.phone}</p>
-        </div>
-      ) : (
-        <p>No user details found. Please log in.</p>
-      )}
-    </div>
+    <Router>
+      <div>
+        <Route path="/signup" component={SignupForm} />
+        <Route
+          path="/login"
+          render={(props) => <LoginForm {...props} redirectTo="/dashboard" />}
+        />
+        <Route
+          path="/dashboard"
+          render={(props) => <Dashboard {...props} redirectTo="/dashboard" />}
+        />
+        {/* Redirect to signup by default */}
+        <Redirect from="/" to="/signup" />
+      </div>
+    </Router>
   );
 };
 
-export default Dashboard;
+export default App;
